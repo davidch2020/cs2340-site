@@ -5,20 +5,136 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>My Project Pages Demo</title>
     <style>
-      body { font-family: sans-serif; margin-top: 4rem; }
-      h1 { color: rebeccapurple; }
+      body {
+        font-family: sans-serif;
+        margin: 0 auto;
+        padding: 0 1em;
+        max-width: 75ch;
+      }
+      h1 { color: #000; }
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      figure {
+        margin: 2em 0;
+      }
+      figcaption {
+        text-align: center;
+        font-size: 0.9em;
+        color: #555;
+        margin-top: 0.5em;
+      }
+      /* Grid layout for screenshot galleries */
+      .screenshots {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1em;
+        margin: 1em 0;
+        justify-items: center;
+        max-width: 100%;
+      }
+      .screenshots img {
+        /* maintain aspect ratio while allowing larger display */
+        max-width: 600px;
+        max-height: 450px;
+        width: auto;
+        height: auto;
+        display: block;
+      }
+      video {
+        display: block;
+        max-width: 100%;
+        margin: 2em auto;
+      }
     </style>
   </head>
   <body>
     <h1>Study Buddy</h1>
     <h2>Introduction</h2>
-    <p>Study Buddy is a study tracking app for students. The purpose of the app is to create study goals, track goal completion, and meet 
-      groups of students to study with. We developed Study Buddy in Android Studio using Java. 
+    <p>Studying is hard. However, poor organization makes it harder. The saying goes, "you can't improve at something you don't measure". Yet, many open a textbook and start reading aimlessly. Study Buddy is a study tracking app for students. The purpose of the app is to create and track study goals. We aim to create an app with ease-of-use and organized learning at its core. Users can set daily or weekly goals, log study sessions, track their progress, and study with other group members. We developed Study Buddy in Android Studio using Java.</p>
+    <h2>Design &amp; Architecture</h2>
+    <p>Study Buddy uses the Model-View-ViewModel (MVVM) architecture. MVVM is commonly used in Android projects. Model holds the data and business logic of the application. View represents the app's UI including all the XML files and Activities. ViewModel acts as a bridge between Model and View. The ViewModel handles user interaction from the View and passes data to the Model. It is also solely responsible for interacting with Firebase. Throughout the semester, we learned about different diagrams used to layout our app. We implemented these diagrams.</p>
+    <figure>
+      <img src="images/log study session.png" alt="Sequence Diagram of log study session use case">
+      <figcaption>Sequence diagram of log study session use case.</figcaption>
+    </figure>
+    <p>A sequence diagram models a single scenario. It shows interactions between a user and system objects using messages. In this example, I created a sequence diagram of the log study session scenario. The user would send their information to the ViewModel. The ViewModel calls on the Model for validation logic, checking for empty boxes or improper dates. After receiving confirmation all inputs are correct, the information is stored in Firebase. Fragment boxes are used to indicate diverging paths. For example, the 'alt' box has two paths: one path if a condition is met and another if it isn't. I learned to use the sequence diagram as a starting point rather than a final piece. Looking back at the sequence diagram, we made changes to the class name, messages, and interactions as we developed our app. Design should be used to focus the app's scope but changes should be made as you implement.</p>
+    <figure>
+      <img src="images/dcd.png" alt="Design class diagram">
+      <figcaption>Design class diagram of our app's functionalities.</figcaption>
+    </figure>
+    <h2>User Interface</h2>
+    <h3>Startup Screen</h3>
+    <p>The first screen the user sees. It allows the user to continue to the login/registration page ("Start") or safely exit the app ("Quit").</p>
+    <div class="screenshots">
+      <img src="images/startup.png" alt="Startup screen">
+    </div>
+    <h3>Login and Registration Screen</h3>
+    <p>User can input their account username and password. If they don't have one, they can create a new account. The user proceeds to type in their full name, email address, and password. All their data is securely stored in Firebase Authentication.</p>
+    <div class="screenshots">
+      <img src="images/login.png" alt="Login screen">
+      <img src="images/registration.png" alt="Registration screen">
+    </div>
+    <h3>Dashboard: Streaks and Calendar</h3>
+    <p>The Dashboard is the first screen the user sees after logging into the app. There is a progress bar tracking daily and weekly goal completion. Underneath is two streak trackers. The daily streak counts the number of days in a row a daily goal was completed. The weekly streak counts the number of weeks in a row a weekly goal was completed.</p>
+    <div class="screenshots">
+      <img src="images/dashboard.png" alt="Dashboard screen">
+      <img src="images/calendar.png" alt="Calendar view">
+    </div>
+    <h3>Goal List and Creation</h3>
+    <p>The user can see all the goals they created. Every goal is marked as completed (✅) or not completed (❌) They can create a new goal by clicking the '+' button in the top-right corner. The goal creation screen prompts them for the goal title, subject, duration, goal type (daily vs. weekly), and start date.</p>
+    <div class="screenshots">
+      <img src="images/goals list.png" alt="Goals list screen">
+      <img src="images/goal creation screen.png" alt="Goal creation screen">
+    </div>
+    <h3>Study Log: Complete Your Goals</h3>
+    <p>The study log allows users to make progress towards their goal. Every time a user studies, they can jot down how long they studied and which goal. They can optionally add any notes.</p>
+    <div class="screenshots">
+      <img src="images/study log.png" alt="Study log screen">
+    </div>
+    <h3>Progress Screen: Track Your Goals</h3>
+    <p>The progress screen tracks users study time from the past five days in minutes. Each day is split between time spent in group study sessions versus personal study sessions. Using the feature, users can track how much time they spent a day studying and if they spent more time studying by themselves or in a group.</p>
+    <div class="screenshots">
+      <img src="images/progress.png" alt="Progress screen">
+    </div>
+    <h3>Group Study: Never Work Alone</h3>
+    <p>From the group study screen, the user can view a list of their upcoming group study sessions. The screen is split between accepted sessions and pending invites. A yellow circle appears next to invites. After accepting an invite, the session appears under 'Sessions' with a green circle. Clicking on the '+' button in the top-right corner brings the user to the session creation screen. A user inputs the necessary information (title, topic, date, etc.). Clicking on a session under 'Sessions' brings the user to a 'Session Details' page. It contains general information about the session (topic, date, etc.). If the user created the session, they can invite members. They can also cancel the session.</p>
+    <div class="screenshots">
+      <img src="images/group study.png" alt="Group study list">
+      <img src="images/group study creation.png" alt="Group study creation">
+      <img src="images/session details.png" alt="Session details screen">
+    </div>
+    <h2>Functionality Video</h2>
+    <video controls>
+      <source src="videos/demo.mp4" type="video/mp4">
+      <source src="videos/demo.mov" type="video/quicktime">
+      Your browser doesn’t support HTML5 video.
+      <a href="videos/demo.mp4">Download the MP4</a>.
+    </video>
+    <h2>Conclusions and Reflections/Learning</h2>
+    <p>This summer's CS 2340 project was one of the most enjoyable learning experiences I have had. Unlike past college classes I have taken, CS 2340 is a project-based class. Even though we have instructor-guided lectures, a large portion of our time is spent within our groups. This brought with it new challenges.</p>
+    <ul>
+      <li>How would we split the work?</li>
+      <li>What do we do if someone doesn't do their work?</li>
+      <li>How can we set intra-team deadlines?</li>
+    </ul>
+    <p>We learned to overcome these challenges. We split the work evenly but assigned responsibilities based on who was most likely to complete their work on time. 
+      If someone did not do their work, we were honest on our CATME surveys. We discussed with that person one-on-one. We set intra-team deadlines using Trello. 
+      At the beginning we noticed these intra-team deadlines were being missed because they were not enforced. Starting from Sprint 3, we agreed to close our 
+      GitHub repo's 'main' branch 24 hours before the deadline. This forced us to finish our work a day before the deadline, allowing more time to test. 
+      From my experience working on this project, I learned discipline, organization, and detail-orientedness matter. I had to be disciplined with deadlines, 
+      following MVVM, and routinely checking GitHub for pull requests. I had to be organized and detail-oriented because poor code organization could snowball as coupling increased.
+    I contributed to the design, user interface, setting up Firebase, and organizing tasks for team members. It was a lot of work but rewarding.
     </p>
-    <h2>Design & Architecture</h2>
-    <p>
-      Study Buddy uses the Model-View-ViewModel (MVVM) architecture. MVVM is commonly used in Android projects. Model holds the data and business
-      logic of the application. 
-    </p>
+    <h2>Contributors</h2>
+    <p>Below, are my group members.</p>
+    <ul>
+      <li>Edmund Chen</li>
+      <li>Mutimu Njenga</li>
+      <li>Tyler Luo</li>
+    </ul>
+    <p>Special thanks to Edmund Chen. He stayed up late with me during Sprint 2. Without his help with last-minute debugs, we wouldn't have submitted it on time.</p>
   </body>
 </html>
